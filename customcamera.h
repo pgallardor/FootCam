@@ -25,6 +25,9 @@ class CustomCamera : public QObject {
         UVC_Camera *cam;
         std::string _format;
         int _id;
+        cv::Mat treat(cv::Mat frame);
+        cv::Mat treatY16(cv::Mat frame);
+        void saveCapture(cv::Mat frame);
 
     signals:
         void frameAvailible(QImage frame, int id);

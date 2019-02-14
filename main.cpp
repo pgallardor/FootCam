@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     Gui w;
 
     w.resize(700, 400); //720 x 480
-    w.setWindowTitle("FootCam v0.2.2");
+    w.setWindowTitle("FootCam v0.2.3");
     w.show();
 
     return a.exec();

@@ -133,8 +133,7 @@ void cb_y16(uvc_frame_t *frame, void *ptr){
 
     Mat *img = new Mat(frame->height, frame->width, CV_16UC1, frame->data);
     resize(*img, *img, Size(FIXED_WIDTH, FIXED_HEIGHT));
-    normalize(*img, *img, 0, 65535, NORM_MINMAX);
-    img->convertTo(*img, CV_8U, 1 / 256.0);
+    //save frame before normalizing
 
     UVC_Camera *cam = (UVC_Camera*)ptr;
     cam->addFrame(img);

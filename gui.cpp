@@ -8,6 +8,7 @@
 #include <QMenu>
 #include <QFile>
 #include <QColor>
+#include <unistd.h>
 #include <QImage>
 #include <QMenuBar>
 //#include "visualcamera.h"
@@ -56,15 +57,13 @@ Gui::Gui(QWidget *parent)
     connect(capture, &QPushButton::clicked, this, &Gui::capture);
     connect(analyze, &QPushButton::clicked, this, &Gui::analyze);
 
-    /*QFrame *f1 = new QFrame(), *f2 = new QFrame();
-    f1->setFixedHeight(240); f1->setFixedWidth(320);
-    f1->setFrameStyle(QFrame::Box);
+    //Ugly pathing stuff
+    char *path = new char[256];
+    getcwd(path, 256);
+    QString assetPath((const char*)path); assetPath += "/Assets/";
 
-    f2->setFixedHeight(240); f2->setFixedWidth(320);
-    f2->setFrameStyle(QFrame::Box);
-    */
-    pepega = new QImage("/home/pedro/Documents/FootCam/Assets/stando.jpg");
-    QImage *f2 = new QImage("/home/pedro/Documents/FootCam/Assets/god.jpg");
+    pepega = new QImage(assetPath + "stando.jpg");
+    QImage *f2 = new QImage(assetPath + "god.jpg");
 
     ther = new QLabel("");
     ppg = new QLabel("");
@@ -115,7 +114,7 @@ Gui::Gui(QWidget *parent)
 }
 
 void Gui::aboutWindow(){
-    QMessageBox::about(this, tr("FootShot FootCam v0.2.2"), tr("Done by Pedro G. using C++ & Qt5"));
+    QMessageBox::about(this, tr("FootShot FootCam v0.2.3"), tr("Done by Pedro G. using C++ & Qt5"));
 }
 
 void Gui::changeStatus(QString s){
