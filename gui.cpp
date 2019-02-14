@@ -10,7 +10,7 @@
 #include <QColor>
 #include <QImage>
 #include <QMenuBar>
-#include "visualcamera.h"
+//#include "visualcamera.h"
 
 Gui::Gui(QWidget *parent)
     : QMainWindow(parent) {
@@ -95,17 +95,17 @@ Gui::Gui(QWidget *parent)
 
     tl = new QThread();
     thr = new QThread();
-    vis = new VisualCamera(ctx, 0x80ee, 0x30);
-    ir = new ThermalCamera(ctx, 0x1e4e, 0x0100);
+    vis = new CustomCamera(ctx, 0, 0x80ee, 0x30, 320, 240);
+    ir = new CustomCamera(ctx, 1, 0x1e4e, 0x0100, 160, 120, "Y16");
 
     vis->moveToThread(tl);
     ir->moveToThread(thr);
 
-    connect(tl, &QThread::started, vis, &VisualCamera::retrieveFrame);
-    connect(vis, &VisualCamera::frameObtained, this, &Gui::updateLeft);
+    connect(tl, &QThread::started, vis, &CustomCamera::fetchFrame);
+    connect(vis, &CustomCamera::frameAvailible, this, &Gui::update);
 
-    connect(thr, &QThread::started, ir, &ThermalCamera::retrieveFrame);
-    connect(ir, &ThermalCamera::frameObtained, this, &Gui::updateRight);
+    connect(thr, &QThread::started, ir, &CustomCamera::fetchFrame);
+    connect(ir, &CustomCamera::frameAvailible, this, &Gui::update);
 
     vis->start();
     ir->start();
@@ -115,7 +115,7 @@ Gui::Gui(QWidget *parent)
 }
 
 void Gui::aboutWindow(){
-    QMessageBox::about(this, tr("FootShot FootCam v0.2.0"), tr("Done by Pedro G. using C++ & Qt5"));
+    QMessageBox::about(this, tr("FootShot FootCam v0.2.2"), tr("Done by Pedro G. using C++ & Qt5"));
 }
 
 void Gui::changeStatus(QString s){
@@ -133,6 +133,14 @@ void Gui::capture(int qnt = 5){
     return;
 }
 
+void Gui::update(QImage img, int id){
+    if (img.height() == 0 || img.width() == 0) return;
+    if (!id)
+        ppg->setPixmap(QPixmap::fromImage(img));
+    else
+        ther->setPixmap(QPixmap::fromImage(img));
+}
+/*
 void Gui::updateLeft(){
     QImage buff = vis->getFrame();
     if (buff.height() == 0){
@@ -146,3 +154,4 @@ void Gui::updateRight(){
     if (buff.height() == 0 || buff.width() == 0) return;
     ther->setPixmap(QPixmap::fromImage(buff));
 }
+*/

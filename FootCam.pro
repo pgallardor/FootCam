@@ -26,15 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     gui.cpp \
-    visualcamera.cpp \
     uvc_camera.cpp \
-    thermalcamera.cpp
+    customcamera.cpp
 
 HEADERS += \
     gui.h \
-    visualcamera.h \
     uvc_camera.hpp \
-    thermalcamera.h
+    customcamera.h
 
 LIBS += -luvc -lusb-1.0 -lopencv_core \
         -lopencv_highgui -lopencv_videoio \

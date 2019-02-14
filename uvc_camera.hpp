@@ -10,6 +10,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <mutex>
+#define FIXED_HEIGHT 240
+#define FIXED_WIDTH 320
 
 using namespace cv;
 using namespace std;

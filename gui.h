@@ -11,8 +11,7 @@
 #include <QMutex>
 #include <QTimer>
 #include <QThread>
-#include "visualcamera.h"
-#include "thermalcamera.h"
+#include "customcamera.h"
 
 class Gui : public QMainWindow{
     Q_OBJECT
@@ -23,15 +22,16 @@ class Gui : public QMainWindow{
     private slots:
         void aboutWindow();
         void changeStatus(QString s);
-        void updateLeft();
-        void updateRight();
+        //void updateLeft();
+        //void updateRight();
+        void update(QImage img, int id);
         void analyze();
         void capture(int qnt);
 
     private:
         //cameras soon
-        VisualCamera *vis;
-        ThermalCamera *ir;
+        CustomCamera *vis,
+                     *ir;
         QThread *tl, *thr;
         QImage *visual,
                *pepega;
