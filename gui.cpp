@@ -10,6 +10,7 @@
 #include <QColor>
 #include <unistd.h>
 #include <QImage>
+#include <QMetaType>
 #include <QMenuBar>
 //#include "visualcamera.h"
 
@@ -60,10 +61,10 @@ Gui::Gui(QWidget *parent)
     //Ugly pathing stuff
     char *path = new char[256];
     getcwd(path, 256);
-    QString assetPath((const char*)path); assetPath += "/Assets/";
+    _path = QString((const char*)path); _path += "/";
 
-    pepega = new QImage(assetPath + "stando.jpg");
-    QImage *f2 = new QImage(assetPath + "god.jpg");
+    pepega = new QImage(_path + "Assets/stando.jpg");
+    QImage *f2 = new QImage(_path + "Assets/god.jpg");
 
     ther = new QLabel("");
     ppg = new QLabel("");
@@ -106,6 +107,11 @@ Gui::Gui(QWidget *parent)
     connect(thr, &QThread::started, ir, &CustomCamera::fetchFrame);
     connect(ir, &CustomCamera::frameAvailible, this, &Gui::update);
 
+    //connecting to write image
+    qRegisterMetaType< cv::Mat >("cv::Mat");
+    connect(vis, &CustomCamera::savePicture, this, &Gui::saveFrame);
+    connect(ir, &CustomCamera::savePicture, this, &Gui::saveFrame);
+
     vis->start();
     ir->start();
     tl->start();
@@ -114,7 +120,7 @@ Gui::Gui(QWidget *parent)
 }
 
 void Gui::aboutWindow(){
-    QMessageBox::about(this, tr("FootShot FootCam v0.2.3"), tr("Done by Pedro G. using C++ & Qt5"));
+    QMessageBox::about(this, tr("FootShot FootCam v0.3.1"), tr("Done by Pedro G. using C++ & Qt5"));
 }
 
 void Gui::changeStatus(QString s){
@@ -126,9 +132,11 @@ void Gui::analyze(){
     return;
 }
 
-void Gui::capture(int qnt = 5){
-    Q_UNUSED(qnt);
+void Gui::capture(){
+    int qnt = 5;
     changeStatus("Capturando...");
+    vis->save(qnt);
+    ir->save(qnt);
     return;
 }
 
@@ -136,8 +144,17 @@ void Gui::update(QImage img, int id){
     if (img.height() == 0 || img.width() == 0) return;
     if (!id)
         ppg->setPixmap(QPixmap::fromImage(img));
-    else
-        ther->setPixmap(QPixmap::fromImage(img));
+    else{
+        ther->setPixmap(QPixmap::fromImage(img.mirrored(true, true)));
+    }
+}
+
+void Gui::saveFrame(Mat raw, int id, int n_pic){
+    qDebug("saving frame from: " + id);
+    std::string sn_pic = std::to_string(n_pic);
+    std::string file = (!id) ? "VIS_" + sn_pic+ ".png" : "IR_" + sn_pic + ".png";
+    file = _path.toStdString() + "Muestras/" + file;
+    imwrite((const char*)file.c_str(), raw);
 }
 /*
 void Gui::updateLeft(){

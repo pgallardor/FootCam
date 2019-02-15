@@ -11,6 +11,7 @@
 #include <QMutex>
 #include <QTimer>
 #include <QThread>
+#include <opencv2/core/core.hpp>
 #include "customcamera.h"
 
 class Gui : public QMainWindow{
@@ -26,7 +27,8 @@ class Gui : public QMainWindow{
         //void updateRight();
         void update(QImage img, int id);
         void analyze();
-        void capture(int qnt);
+        void saveFrame(cv::Mat raw, int id, int n_pic);
+        void capture();
 
     private:
         //cameras soon
@@ -39,6 +41,7 @@ class Gui : public QMainWindow{
                *ppg,
                *ther;
         QMutex mtx;
+        QString _path;
         bool isRecording;
 };
 

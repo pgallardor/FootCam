@@ -7,6 +7,7 @@ CustomCamera::CustomCamera(Context *ctx, int id, int vid, int pid,\
     _id = id;
     _format = string(format);
     cam = new UVC_Camera(ctx, vid, pid, wid, hei, format);
+    _to_save = 0;
 }
 
 void CustomCamera::start(){
@@ -36,12 +37,25 @@ cv::Mat CustomCamera::treatY16(cv::Mat frame){
     return ret;
 }
 
+void CustomCamera::saveCapture(cv::Mat frame, std::string path){
+    return;
+}
+
+void CustomCamera::save(int qnt){
+    _to_save = qnt;
+}
+
 void CustomCamera::fetchFrame(){
     qDebug("Starting loop");
     while (cam->isStreaming()){
         if (cam->hasFrames()){
             cv::Mat frame = cam->getFrame();
             if (frame.empty()) continue;
+
+            if (_to_save){
+                emit savePicture(frame, _id, _to_save);
+                _to_save--;
+            }
 
             if (!_format.compare("Y16")){
                 frame = this->treatY16(frame);

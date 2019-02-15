@@ -20,17 +20,22 @@ class CustomCamera : public QObject {
         ~CustomCamera() { delete cam; }
         void start();
         void stop();
+        void save(int qnt);
         //QImage getFrame();
     private:
         UVC_Camera *cam;
         std::string _format;
         int _id;
+        int _to_save;
         cv::Mat treat(cv::Mat frame);
         cv::Mat treatY16(cv::Mat frame);
-        void saveCapture(cv::Mat frame);
+        //approach 1: just save it from the camera
+        void saveCapture(cv::Mat frame, std::string path);
 
     signals:
         void frameAvailible(QImage frame, int id);
+        //approach 2: ask the gui to save it
+        void savePicture(cv::Mat raw, int id, int n_pic);
 
     public slots:
         void fetchFrame();
