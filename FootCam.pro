@@ -22,6 +22,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+CONFIG += link_pkgconfig
+PKGCONFIG += opencv
 
 SOURCES += \
         main.cpp \
@@ -34,6 +36,4 @@ HEADERS += \
     uvc_camera.hpp \
     customcamera.h
 
-LIBS += -luvc -lusb-1.0 -lopencv_core \
-        -lopencv_highgui -lopencv_videoio \
-        -lopencv_imgproc -lopencv_imgcodecs
+LIBS += -luvc -lusb-1.0 

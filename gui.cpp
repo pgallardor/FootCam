@@ -156,18 +156,3 @@ void Gui::saveFrame(Mat raw, int id, int n_pic){
     file = _path.toStdString() + "Muestras/" + file;
     imwrite((const char*)file.c_str(), raw);
 }
-/*
-void Gui::updateLeft(){
-    QImage buff = vis->getFrame();
-    if (buff.height() == 0){
-        return;
-    }
-    ppg->setPixmap(QPixmap::fromImage(buff));
-}
-
-void Gui::updateRight(){
-    QImage buff = ir->getFrame();
-    if (buff.height() == 0 || buff.width() == 0) return;
-    ther->setPixmap(QPixmap::fromImage(buff));
-}
-*/
