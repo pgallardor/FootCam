@@ -96,7 +96,7 @@ Gui::Gui(QWidget *parent)
     tl = new QThread();
     thr = new QThread();
     ir = new CustomCamera(ctx, 1, 0x1e4e, 0x0100, 160, 120, "Y16");
-    vis = new CustomCamera(ctx, 0, 0x80ee, 0x30, 320, 240);
+    vis = new CustomCamera(ctx, 0, 0x046d, 0x0826, 320, 240);
 
     vis->moveToThread(tl);
     ir->moveToThread(thr);
