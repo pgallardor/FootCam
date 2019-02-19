@@ -22,6 +22,7 @@ UVC_Camera::UVC_Camera(uvc_context_t *ctx, int vid, int pid, int wid, int hei,
     //printf("Device opened correctly\n");
 
     if (!_format.compare("MJPEG")){
+        printf("MJPEG");
         err = uvc_get_stream_ctrl_format_size(\
                     _devh, &_ctrl,\
                     UVC_FRAME_FORMAT_MJPEG, wid, hei, 30); //UVC_FRAME_FORMAT_MJPEG
