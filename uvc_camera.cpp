@@ -60,7 +60,7 @@ UVC_Camera::~UVC_Camera(){
 bool UVC_Camera::start(){
     uvc_error_t err;
     void (*callback)(uvc_frame_t*, void*);
-    printf("Stream started\n");
+    printf("(%s) Stream started\n", _format.c_str());
     (!_format.compare("Y16")) ? callback = &cb_y16 : callback = &cb;
 
     err = uvc_start_streaming(_devh, &_ctrl, callback, this, 0);

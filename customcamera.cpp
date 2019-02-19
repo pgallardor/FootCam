@@ -46,7 +46,7 @@ void CustomCamera::save(int qnt){
 }
 
 void CustomCamera::fetchFrame(){
-    qDebug("Starting loop");
+    printf("(%s) Starting loop\n", _format.c_str());
     while (cam->isStreaming()){
         if (cam->hasFrames()){
             cv::Mat frame = cam->getFrame();
@@ -65,4 +65,5 @@ void CustomCamera::fetchFrame(){
             emit frameAvailible(img, _id);
         }
     }
+    printf("(%s) Loop finished\n", _format.c_str());
 }
