@@ -65,7 +65,7 @@ void CustomCamera::fetchFrame(){
             emit frameAvailible(img, _id);
         }
         else{
-            printf("(%s) No frames", _format.c_str());
+            //printf("(%s) No frames", _format.c_str());
         }
     }
     printf("(%s) Loop finished\n", _format.c_str());

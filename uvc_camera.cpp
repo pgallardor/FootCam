@@ -70,6 +70,7 @@ bool UVC_Camera::start(){
         return false;
     }
     uvc_set_ae_mode(_devh, 1);
+
     this->_streaming = true;
     return true;
 }
@@ -133,6 +134,7 @@ void cb_y16(uvc_frame_t *frame, void *ptr){
     if (frame->data_bytes != 2 * frame->height * frame->width)
         return; //is this a FRAMECITO MALO?
 
+    printf("Y16 Callback");
     Mat *img = new Mat(frame->height, frame->width, CV_16UC1, frame->data);
     resize(*img, *img, Size(FIXED_WIDTH, FIXED_HEIGHT));
     //save frame before normalizing
