@@ -30,7 +30,7 @@ UVC_Camera::UVC_Camera(uvc_context_t *ctx, int vid, int pid, int wid, int hei,
         printf("Y16\n");
         err = uvc_get_stream_ctrl_format_size(\
                     _devh, &_ctrl,\
-                    UVC_FRAME_FORMAT_GRAY16, wid, hei, 9);
+                    UVC_FRAME_FORMAT_Y16, wid, hei, 9);
     }
     else{ //maybe we don't reach this line
         printf("UNKNOWN\n");
