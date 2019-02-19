@@ -65,6 +65,8 @@ bool UVC_Camera::start(){
 
     err = uvc_start_streaming(_devh, &_ctrl, callback, this, 0);
     if (err) {
+        printf("%s", _format.c_str());
+        uvc_perror(err, "start_streaming");
         return false;
     }
     uvc_set_ae_mode(_devh, 1);

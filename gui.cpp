@@ -95,8 +95,8 @@ Gui::Gui(QWidget *parent)
 
     tl = new QThread();
     thr = new QThread();
-    vis = new CustomCamera(ctx, 0, 0x80ee, 0x30, 320, 240);
     ir = new CustomCamera(ctx, 1, 0x1e4e, 0x0100, 160, 120, "Y16");
+    vis = new CustomCamera(ctx, 0, 0x80ee, 0x30, 320, 240);
 
     vis->moveToThread(tl);
     ir->moveToThread(thr);
@@ -150,7 +150,9 @@ void Gui::update(QImage img, int id){
 }
 
 void Gui::saveFrame(Mat raw, int id, int n_pic){
-    qDebug("saving frame from: " + id);
+    std::string msg("saving frame from: ");
+    msg += std::to_string(id);
+    qDebug(msg.c_str());
     std::string sn_pic = std::to_string(n_pic);
     std::string file = (!id) ? "VIS_" + sn_pic+ ".png" : "IR_" + sn_pic + ".png";
     file = _path.toStdString() + "Muestras/" + file;
