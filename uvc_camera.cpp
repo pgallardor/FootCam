@@ -41,7 +41,7 @@ UVC_Camera::UVC_Camera(uvc_context_t *ctx, int vid, int pid, int wid, int hei,
 
     //error on format
     if (err){
-        //uvc_perror(err, "format");
+        uvc_perror(err, "format");
         exit(0);
     }
     _frames = new queue<Mat*>();
