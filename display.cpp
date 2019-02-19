@@ -2,14 +2,28 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+#include <cstdio>
 
 using namespace cv;
 using namespace std;
 
 int main(){
-	VideoCapture cap(0);
-	if (!cap.isOpened()) return -1;
-
+        bool opened = false;
+	VideoCapture  cap;
+	for (int i = 0; i < 15; i++){
+	  cap = VideoCapture(i);
+	  if (!cap.isOpened()){
+	    printf("Error opening device %d\n", i);
+	    continue;
+	  }
+	  opened = true;
+	  break;
+	}
+	//VideoCapture cap(0);
+	//if (!cap.isOpened()) return -1;
+	if (!opened){
+	  cout << "AYYYYY" << endl;
+	}
 	cout << "LMAOOO" << endl;
 
 	namedWindow("video", 1);
