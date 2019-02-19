@@ -142,9 +142,12 @@ void Gui::capture(){
 
 void Gui::update(QImage img, int id){
     if (img.height() == 0 || img.width() == 0) return;
-    if (!id)
+    if (!id){
+        qDebug("(MJPEG) Updating");
         ppg->setPixmap(QPixmap::fromImage(img));
+    }
     else{
+        qDebug("(Y16) Updating");
         ther->setPixmap(QPixmap::fromImage(img.mirrored(true, true)));
     }
 }
