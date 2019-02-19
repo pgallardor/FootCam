@@ -10,7 +10,7 @@ using namespace std;
 int main(){
         bool opened = false;
 	VideoCapture  cap;
-	for (int i = 0; i < 15; i++){
+	for (int i = 0; i < 20; i++){
 	  cap = VideoCapture(i);
 	  if (!cap.isOpened()){
 	    printf("Error opening device %d\n", i);
@@ -23,6 +23,7 @@ int main(){
 	//if (!cap.isOpened()) return -1;
 	if (!opened){
 	  cout << "AYYYYY" << endl;
+	  return -1;
 	}
 	cout << "LMAOOO" << endl;
 
