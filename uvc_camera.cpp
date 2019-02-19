@@ -121,7 +121,7 @@ bool UVC_Camera::isStreaming(){
 void cb(uvc_frame_t *frame, void *ptr){
     //if (frame->data_bytes < 2 * frame->height * frame->width)
     //	return; //bad frame
-
+    printf("Normal callback\n");
     Mat *img = new Mat(frame->height, frame->width, CV_16UC1, frame->data);
     *img = imdecode(*img, 1);
 

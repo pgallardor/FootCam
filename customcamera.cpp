@@ -64,6 +64,9 @@ void CustomCamera::fetchFrame(){
             QImage img((uchar*)frame.data, frame.cols, frame.rows, QImage::Format_RGB888);
             emit frameAvailible(img, _id);
         }
+        else{
+            printf("(%s) No frames");
+        }
     }
     printf("(%s) Loop finished\n", _format.c_str());
 }
