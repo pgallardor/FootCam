@@ -12,7 +12,11 @@
 #include <QImage>
 #include <QMetaType>
 #include <QMenuBar>
-//#include "visualcamera.h"
+
+#define VISUALCAM_PID 0x0030
+#define VISUALCAM_VID 0x80ee
+#define IRCAM_PID 0x0100
+#define IRCAM_VID 0x1e4e
 
 Gui::Gui(QWidget *parent)
     : QMainWindow(parent) {
@@ -59,6 +63,7 @@ Gui::Gui(QWidget *parent)
     connect(analyze, &QPushButton::clicked, this, &Gui::analyze);
 
     //Ugly pathing stuff
+    //Qt has better pathing
     char *path = new char[256];
     getcwd(path, 256);
     _path = QString((const char*)path); _path += "/";
@@ -95,8 +100,9 @@ Gui::Gui(QWidget *parent)
 
     tl = new QThread();
     thr = new QThread();
-    ir = new CustomCamera(ctx, 1, 0x1e4e, 0x0100, 160, 120, "Y16");
-    vis = new CustomCamera(ctx, 0, 0x046d, 0x0826, 320, 240);
+
+    vis = new CustomCamera(ctx, 0, VISUALCAM_VID, VISUALCAM_PID, 320, 240);
+    ir = new CustomCamera(ctx, 1, IRCAM_VID, IRCAM_PID, 160, 120, "Y16");
 
     vis->moveToThread(tl);
     ir->moveToThread(thr);
@@ -117,6 +123,14 @@ Gui::Gui(QWidget *parent)
     tl->start();
     thr->start();
     setCentralWidget(canvas);
+}
+
+Gui::~Gui(){
+    vis->stop(); ir->stop();
+    tl->exit(); thr->exit();
+    delete ir;
+    delete vis;
+    uvc_exit(ctx);
 }
 
 void Gui::aboutWindow(){
@@ -140,10 +154,10 @@ void Gui::capture(){
     return;
 }
 
+//prolly make more expressive
 void Gui::update(QImage img, int id){
     if (img.height() == 0 || img.width() == 0) return;
     if (!id){
-        //qDebug("(MJPEG) Updating");
         ppg->setPixmap(QPixmap::fromImage(img));
     }
     else{
@@ -152,6 +166,7 @@ void Gui::update(QImage img, int id){
     }
 }
 
+//this one too
 void Gui::saveFrame(Mat raw, int id, int n_pic){
     std::string msg("saving frame from: ");
     msg += std::to_string(id);

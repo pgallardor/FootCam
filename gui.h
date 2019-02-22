@@ -18,6 +18,7 @@ class Gui : public QMainWindow{
     Q_OBJECT
     public:
         Gui(QWidget *parent = 0);
+        ~Gui();
         void startCamera();
 
     private slots:
